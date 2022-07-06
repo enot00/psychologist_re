@@ -1,0 +1,18 @@
+p, user, /v1/users/:id/reset-password, POST
+p, user, /v1/users/:id, DELETE
+
+p, user, /v1/auth/logout, GET
+
+p, user, /v1/specializations, GET
+
+p, user, /v1/meetings, POST
+p, user, /v1/meetings/:id, (GET)|(PUT)|(DELETE)
+
+p, 0, /v1/clients/:id, (GET)|(PUT)
+p, 0, /v1/specialists, GET
+
+p, 1, /v1/specialists, GET
+p, 1, /v1/specialists/:id, PUT
+
+g, 0, user
+g, 1, user

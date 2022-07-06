@@ -1,0 +1,48 @@
+version: "3.8"
+
+volumes:
+  db-storage:
+
+networks:
+  backend:
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: ./.docker/Dockerfile
+    container_name: go_app
+    environment:
+      DB_HOST: ${DB_HOST:-postgres_db}
+      DB_USER: ${DB_USERNAME:-go_app}
+      DB_PASSWORD: ${DB_PASSWORD:-secret-pass}
+      DB_NAME: ${DB_NAME:-psy_db}
+    ports:
+      - "8081:8081"
+    networks:
+      backend:
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: go_app
+      POSTGRES_PASSWORD: secret-pass
+      POSTGRES_DB: psy_db
+    volumes:
+      - db-storage:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    networks:
+      backend:
+
+#  adminer:
+#    image: adminer:latest
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db
